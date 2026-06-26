@@ -46,29 +46,29 @@ jobs:
           name: playwright-report
           path: reports/playwright/
 
+  #deploy:
+   # needs: ci
+    #runs-on: ubuntu-latest
+    #if: github.ref == 'refs/heads/main'
+
+    #steps:
+     # - name: Deploy no Render
+      #  env:
+       #   DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        #run: |
+         # curl -sS -X POST "$DEPLOY_URL"
+
   deploy:
-    needs: ci
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
+     needs: ci
+     runs-on: ubuntu-latest
+     # para deploy automático em push para main, use: if: github.ref == 'refs/heads/main'
+     # if: startsWith(github.ref, 'refs/tags/v') # só roda deploy em tags de versão
+     if: startsWith(github.ref, 'refs/heads/main') # roda deploy em push para main
 
-    steps:
-      - name: Deploy no Render
-        env:
-          DEPLOY_URL: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
-        run: |
-          curl -sS -X POST "$DEPLOY_URL"
+     steps:
+       - uses: actions/checkout@v4
 
-  # deploy:
-  #   needs: ci
-  #   runs-on: ubuntu-latest
-  #   # para deploy automático em push para main, use: if: github.ref == 'refs/heads/main'
-  #   # if: startsWith(github.ref, 'refs/tags/v') # só roda deploy em tags de versão
-  #   if: startsWith(github.ref, 'refs/heads/main') # roda deploy em push para main
-
-  #   steps:
-  #     - uses: actions/checkout@v4
-
-  #     - name: Deploy
-  #       run: |
-  #         echo "Simulando deploy..."
-  #         echo "Aqui você colocaria seus comandos reais de deploy"
+       - name: Deploy
+         run: |
+           echo "Simulando deploy..."
+           echo "Aqui você colocaria seus comandos reais de deploy"
